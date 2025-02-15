@@ -12,12 +12,16 @@ import { Separator } from "@radix-ui/react-separator";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 import { SignInFlow } from "../types";
+import { useState } from "react";
 
 interface SignInCardProps {
   setState: (state: SignInFlow) => void;
 }
 
 export const SignInCard = ({ setState }: SignInCardProps) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   return (
     <Card className="h-full w-full p-8">
       <CardHeader className="px-0 pt-0">
@@ -30,17 +34,21 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
         <form className="space-y-2.5">
           <Input
             disabled={false}
-            value=""
+            value={email}
             placeholder="Email"
-            onChange={() => {}}
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
             type="email"
             required
           />
           <Input
             disabled={false}
-            value=""
+            value={password}
             placeholder="Password"
-            onChange={() => {}}
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
             type="password"
             required
           />
@@ -55,7 +63,7 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
             onClick={() => {}}
             variant="outline"
             size="lg"
-            className="w-full relative"
+            className="w-full relative font-bold"
           >
             <FcGoogle className="size-5 absolute left-2.5" />
             Continue with Google
@@ -65,10 +73,10 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
             onClick={() => {}}
             variant="outline"
             size="lg"
-            className="w-full relative"
+            className="w-full relative font-bold"
           >
             <FaGithub className="size-5 absolute left-2.5" />
-            Continue with Google
+            Continue with Github
           </Button>
         </div>
         <p className="text-xs text-muted-foreground">

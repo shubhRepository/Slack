@@ -13,7 +13,7 @@ export const AuthScreen = () => {
         {state === "signIn" ? (
           <SignInCard setState={setState} />
         ) : (
-          <SignUpCard />
+          <SignUpCard setState={setState} />
         )}
       </div>
     </div>
