@@ -1,3 +1,4 @@
+import { useAuthActions } from "@convex-dev/auth/react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -21,6 +22,12 @@ interface SignInCardProps {
 export const SignInCard = ({ setState }: SignInCardProps) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const { signIn } = useAuthActions();
+
+  const handleProvideSignIn = (value: "github" | "google") => {
+    signIn(value);
+  };
 
   return (
     <Card className="h-full w-full p-8">
@@ -70,7 +77,9 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
           </Button>
           <Button
             disabled={false}
-            onClick={() => {}}
+            onClick={() => {
+              handleProvideSignIn("github");
+            }}
             variant="outline"
             size="lg"
             className="w-full relative font-bold"
