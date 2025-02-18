@@ -1,4 +1,11 @@
+import { useState } from "react";
+
 import { useAuthActions } from "@convex-dev/auth/react";
+import { TriangleAlert } from "lucide-react";
+
+import { FcGoogle } from "react-icons/fc";
+import { FaGithub } from "react-icons/fa";
+
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -9,11 +16,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@radix-ui/react-separator";
-
-import { FcGoogle } from "react-icons/fc";
-import { FaGithub } from "react-icons/fa";
 import { SignInFlow } from "../types";
-import { useState } from "react";
 
 interface SignInCardProps {
   setState: (state: SignInFlow) => void;
@@ -22,11 +25,24 @@ interface SignInCardProps {
 export const SignInCard = ({ setState }: SignInCardProps) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const [pending, setPending] = useState(false);
 
   const { signIn } = useAuthActions();
 
-  const handleProvideSignIn = (value: "github" | "google") => {
+  const onPasswordSignIn = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setPending(true);
+    signIn("password", { email, password, flow: "signIn" })
+      .catch(() => {
+        setError("Invalid email or password");
+      })
+      .finally(() => {
+        setPending(false);
+      });
+  };
+
+  const onProviderSignIn = (value: "github" | "google") => {
     setPending(true);
     signIn(value).finally(() => {
       setPending(false);
@@ -41,8 +57,14 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
           Use your email or another service to continue
         </CardDescription>
       </CardHeader>
+      {!!error && (
+        <div className="bg-destructive/15 p-3 rounded-md flex items-center gap-x-2 text-sm text-destructive mb-6">
+          <TriangleAlert className="size-4" />
+          <p>{error}</p>
+        </div>
+      )}
       <CardContent className="space-y-5 px-0 pb-0">
-        <form className="space-y-2.5">
+        <form onSubmit={onPasswordSignIn} className="space-y-2.5">
           <Input
             disabled={pending}
             value={email}
@@ -72,7 +94,7 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
           <Button
             disabled={pending}
             onClick={() => {
-              handleProvideSignIn("google");
+              onProviderSignIn("google");
             }}
             variant="outline"
             size="lg"
@@ -84,7 +106,7 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
           <Button
             disabled={pending}
             onClick={() => {
-              handleProvideSignIn("github");
+              onProviderSignIn("github");
             }}
             variant="outline"
             size="lg"
