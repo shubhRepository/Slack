@@ -30,3 +30,18 @@ export const get = query({
     return ctx.db.query("workspaces").collect();
   },
 });
+
+export const getById = query({
+  args: {
+    id: v.id("workspaces"),
+  },
+  handler: async (ctx, args) => {
+    const userId = await getAuthUserId(ctx);
+
+    // TODO: only get those workspace which uses has access to
+    if (!userId) {
+      throw new Error("Unauthorized");
+    }
+    return await ctx.db.get(args.id);
+  },
+});
