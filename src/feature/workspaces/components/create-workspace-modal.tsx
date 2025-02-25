@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 import {
   Dialog,
@@ -7,6 +8,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { toast } from "sonner";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -15,8 +17,9 @@ import { useCreateWorkSpace } from "../api/use-create-workspace";
 import { useCreateWorkSpaceModal } from "../store/use-create-workspace-modal";
 
 export const CreateWorkspaceModal = () => {
-  const [open, setOpen] = useCreateWorkSpaceModal();
+  const router = useRouter();
   const [name, setName] = useState("");
+  const [open, setOpen] = useCreateWorkSpaceModal();
 
   const { mutate, isPending } = useCreateWorkSpace();
 
@@ -29,8 +32,10 @@ export const CreateWorkspaceModal = () => {
     mutate(
       { name },
       {
-        onSuccess(data) {
-          console.log(data);
+        onSuccess(id) {
+          toast.success("Workspace created");
+          router.push(`/workspace/${id}`);
+          handleClose();
         },
       }
     );
