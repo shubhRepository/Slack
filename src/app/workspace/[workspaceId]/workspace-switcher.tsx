@@ -45,6 +45,7 @@ export const WorkspaceSwitcher = () => {
       </DropdownMenuTrigger>
       <DropdownMenuContent side="bottom" align="start" className="w-64">
         <DropdownMenuItem
+          key={"Active workspace"}
           className="cusor-pointer flex-col justify-item items-start capitalize"
           onClick={() => router.push(`/workspace/${workspaceId}`)}
         >
