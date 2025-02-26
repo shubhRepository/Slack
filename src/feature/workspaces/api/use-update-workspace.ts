@@ -3,7 +3,7 @@ import { useMutation } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
 import { Id } from "../../../../convex/_generated/dataModel";
 
-type RequestType = { name: string };
+type RequestType = { id: Id<"workspaces">; name: string };
 type ResponseType = Id<"workspaces"> | null;
 
 type Options = {
@@ -25,7 +25,7 @@ const states: StateType = {
   initial: "initial",
 } as const;
 
-export const useCreateWorkSpace = () => {
+export const useUpdateWorkSpace = () => {
   const [data, setData] = useState<ResponseType>(null);
   const [error, setError] = useState<Error | null>(null);
 
@@ -33,7 +33,7 @@ export const useCreateWorkSpace = () => {
     "pending" | "success" | "error" | "settled" | "initial"
   >("initial");
 
-  const mutation = useMutation(api.workspaces.create);
+  const mutation = useMutation(api.workspaces.update);
 
   const isPending = useMemo(() => status === states.pending, [status]);
   const isSuccess = useMemo(() => status === states.success, [status]);
