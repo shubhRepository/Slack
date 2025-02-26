@@ -12,7 +12,6 @@ import {
 const triggers = new Triggers<DataModel>();
 
 triggers.register("workspaces", async (ctx, change) => {
-  console.log("Inside workspace trigger");
   if (change.operation === "delete") {
     for await (const member of ctx.db
       .query("members")
