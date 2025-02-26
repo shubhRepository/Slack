@@ -1,3 +1,5 @@
+"use client";
+
 import { ToolBar } from "./toolbar";
 import { Sidebar } from "./sidebar";
 import {
@@ -5,6 +7,7 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
+import { WorkspaceSidbar } from "./workspace-sidebar";
 
 interface WorkspaceIdLayoutProps {
   children: React.ReactNode;
@@ -25,7 +28,7 @@ const WorkspaceIdLayout = ({ children }: WorkspaceIdLayoutProps) => {
             minSize={11}
             className="bg-[#5e2c5f] "
           >
-            <div>Resizable Sidebar</div>
+            <WorkspaceSidbar />
           </ResizablePanel>
           <ResizableHandle withHandle />
           <ResizablePanel minSize={20}>{children}</ResizablePanel>
