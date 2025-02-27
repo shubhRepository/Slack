@@ -30,7 +30,7 @@ export const WorkspaceSection = ({
           onClick={toggle}
         >
           <FaCaretDown
-            className={cn("size-4 transition-transform", on && "-rotate-90")}
+            className={cn("size-4 transition-transform", !on && "-rotate-90")}
           />
         </Button>
         <Button

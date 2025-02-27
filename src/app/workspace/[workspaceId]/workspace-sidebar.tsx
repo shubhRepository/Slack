@@ -13,6 +13,7 @@ import {
   SendHorizonal,
 } from "lucide-react";
 import { SidebarItem } from "./sidebar-item";
+import { UserItem } from "./user-item";
 import { WorkspaceSection } from "./workspace-section";
 
 export const WorkspaceSidebar = () => {
@@ -67,7 +68,20 @@ export const WorkspaceSidebar = () => {
           />
         ))}
       </WorkspaceSection>
-      {members?.map((member, idx) => <div key={idx}>{member?.user?.name}</div>)}
+      <WorkspaceSection
+        label="Direct messages"
+        hint="New direct message"
+        onNew={() => {}}
+      >
+        {members?.map((member) => (
+          <UserItem
+            key={member._id}
+            id={member._id}
+            label={member?.user?.name}
+            image={member?.user?.image}
+          />
+        ))}
+      </WorkspaceSection>
     </div>
   );
 };
