@@ -1,22 +1,29 @@
-import {
-  AlertTriangle,
-  Loader,
-  MessageSquareText,
-  SendHorizonal,
-} from "lucide-react";
 import { useCurrentMember } from "@/feature/members/api/use-current-member";
 import { useGetWorkspace } from "@/feature/workspaces/api/use-get-workspace";
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
 import { WorkspaceHeader } from "./workspace-header";
-import { SidebarItem } from "./sidebar-item";
+import { useGetChannels } from "@/feature/channels/api/use-get-channels";
 
-export const WorkspaceSidbar = () => {
+import {
+  AlertTriangle,
+  HashIcon,
+  Loader,
+  MessageSquareText,
+  SendHorizonal,
+} from "lucide-react";
+import { SidebarItem } from "./sidebar-item";
+import { WorkspaceSection } from "./workspace-section";
+
+export const WorkspaceSidebar = () => {
   const workspaceId = useWorkspaceId();
   const { data: member, isLoading: memberLoading } = useCurrentMember({
     workspaceId,
   });
   const { data: workspace, isLoading: workspaceLoading } = useGetWorkspace({
     id: workspaceId,
+  });
+  const { data: channels, isLoading: channelsLoading } = useGetChannels({
+    workspaceId,
   });
 
   if (memberLoading || workspaceLoading) {
@@ -42,8 +49,20 @@ export const WorkspaceSidbar = () => {
         workspace={workspace}
         isAdmin={member.role === "admin"}
       />
-      <SidebarItem label="Threads" icon={MessageSquareText} id="threads" />
-      <SidebarItem label="Drafts & Sent" icon={SendHorizonal} id="drafts" />
+      <div className="flex flex-col px-2 mt-3">
+        <SidebarItem label="Threads" icon={MessageSquareText} id="threads" />
+        <SidebarItem label="Drafts & Sent" icon={SendHorizonal} id="drafts" />
+      </div>
+      <WorkspaceSection label="Channels" hint="New channel" onNew={() => {}}>
+        {channels?.map((channel) => (
+          <SidebarItem
+            key={channel._id}
+            icon={HashIcon}
+            label={channel.name}
+            id={channel._id}
+          />
+        ))}
+      </WorkspaceSection>
     </div>
   );
 };
