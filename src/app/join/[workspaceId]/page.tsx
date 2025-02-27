@@ -4,16 +4,49 @@ import Link from "next/link";
 import Image from "next/image";
 import VerificationInput from "react-verification-input";
 import { Loader } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
 import { useGetWorkspaceInfo } from "@/feature/workspaces/api/use-get-workspace-info";
+import { useJoin } from "@/feature/workspaces/api/use-join";
 
+import { cn } from "@/lib/utils";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import { useEffect, useMemo } from "react";
 
 function JoinPage() {
+  const router = useRouter();
   const workspaceId = useWorkspaceId();
+  const { mutate, isPending } = useJoin();
   const { data: workspace, isLoading: workspaceLoading } = useGetWorkspaceInfo({
     id: workspaceId,
   });
+
+  const isMember = useMemo(() => workspace?.isMember, [workspace?.isMember]);
+
+  useEffect(() => {
+    if (isMember) {
+      router.push(`/workspace/${workspaceId}`);
+    }
+  }, [isMember, router, workspaceId]);
+
+  const handleComplete = (value: string) => {
+    mutate(
+      {
+        workspaceId,
+        joinCode: value,
+      },
+      {
+        onSuccess: (id) => {
+          router.replace(`/workspace/${id}`);
+          toast.success("Workspace joined");
+        },
+        onError: () => {
+          toast.error("Failed to join workspace");
+        },
+      }
+    );
+  };
 
   if (workspaceLoading) {
     return (
@@ -34,9 +67,13 @@ function JoinPage() {
           </p>
         </div>
         <VerificationInput
+          onComplete={handleComplete}
           length={6}
           classNames={{
-            container: "flex gap-x-2",
+            container: cn(
+              "flex gap-x-2",
+              isPending && "opacity-50 cursor-not-allowed"
+            ),
             character:
               "uppercase h-auto rounded-md border border-gray-300 flex items-center justify-center text-lg font-medium text-gray-500",
             characterInactive: "bg-muted",
