@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 
 import { CreateWorkspaceModal } from "@/feature/workspaces/components/create-workspace-modal";
+import { CreateChannelModal } from "@/feature/channels/components/create-channel-modal";
 
 export const Modals = () => {
   // to prevent hydration error
@@ -18,7 +19,8 @@ export const Modals = () => {
 
   return (
     <>
-      <CreateWorkspaceModal></CreateWorkspaceModal>
+      <CreateChannelModal />
+      <CreateWorkspaceModal />
     </>
   );
 };
