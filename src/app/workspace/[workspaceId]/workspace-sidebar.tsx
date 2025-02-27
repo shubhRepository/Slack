@@ -3,6 +3,7 @@ import { useGetWorkspace } from "@/feature/workspaces/api/use-get-workspace";
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
 import { WorkspaceHeader } from "./workspace-header";
 import { useGetChannels } from "@/feature/channels/api/use-get-channels";
+import { useGetMembers } from "@/feature/members/api/use-get-members";
 
 import {
   AlertTriangle,
@@ -23,6 +24,9 @@ export const WorkspaceSidebar = () => {
     id: workspaceId,
   });
   const { data: channels, isLoading: channelsLoading } = useGetChannels({
+    workspaceId,
+  });
+  const { data: members, isLoading: membersLoading } = useGetMembers({
     workspaceId,
   });
 
@@ -63,6 +67,7 @@ export const WorkspaceSidebar = () => {
           />
         ))}
       </WorkspaceSection>
+      {members?.map((member, idx) => <div key={idx}>{member?.user?.name}</div>)}
     </div>
   );
 };
