@@ -1,6 +1,6 @@
 import { v } from "convex/values";
 import { query } from "./_generated/server";
-import { mutation } from "./triggers/workspace-triggers";
+import { mutation } from "./triggers/workspaceTriggers";
 import { getAuthUserId } from "@convex-dev/auth/server";
 
 const generateCode = () => {

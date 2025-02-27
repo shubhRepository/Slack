@@ -12,7 +12,12 @@ import {
 const triggers = new Triggers<DataModel>();
 
 triggers.register("workspaces", async (ctx, change) => {
-  if (change.operation === "delete") {
+  if (change.operation === "insert") {
+    await ctx.db.insert("channels", {
+      name: "general",
+      workspaceId: change.id,
+    });
+  } else if (change.operation === "delete") {
     for await (const member of ctx.db
       .query("members")
       .withIndex("by_workspace_id", (q) => q.eq("workspaceId", change.id))) {
