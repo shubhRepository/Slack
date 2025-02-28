@@ -1,25 +1,25 @@
 import { v } from "convex/values";
 import { mutation, query, QueryCtx } from "./_generated/server";
 import { getAuthUserId } from "@convex-dev/auth/server";
-import { Id } from "./_generated/dataModel";
+import { Doc, Id } from "./_generated/dataModel";
 import { paginationOptsValidator } from "convex/server";
 
-const populateReactions = (ctx: QueryCtx, messageId: Id<"messages">) => {
-  return ctx.db
+const populateReactions = async (ctx: QueryCtx, messageId: Id<"messages">) => {
+  return await ctx.db
     .query("reactions")
     .withIndex("by_message_id", (q) => q.eq("messageId", messageId))
     .collect();
 };
 
-const populateUser = (ctx: QueryCtx, userId: Id<"users">) => {
-  return ctx.db.get(userId);
+const populateUser = async (ctx: QueryCtx, userId: Id<"users">) => {
+  return await ctx.db.get(userId);
 };
 
-const populateMember = (ctx: QueryCtx, memberId: Id<"members">) => {
-  return ctx.db.get(memberId);
+const populateMember = async (ctx: QueryCtx, memberId: Id<"members">) => {
+  return await ctx.db.get(memberId);
 };
 
-const populateAThread = async (ctx: QueryCtx, messageId: Id<"messages">) => {
+const populateThread = async (ctx: QueryCtx, messageId: Id<"messages">) => {
   const messages = await ctx.db
     .query("messages")
     .withIndex("by_parent_message_id", (q) =>
@@ -27,13 +27,14 @@ const populateAThread = async (ctx: QueryCtx, messageId: Id<"messages">) => {
     )
     .collect();
 
-  if (messageId.length === 0) {
+  if (messages.length === 0) {
     return {
       count: 0,
       image: undefined,
       timestamp: 0,
     };
   }
+
   const lastMessage = messages[messages.length - 1];
   const lastMessageMember = await populateMember(ctx, lastMessage.memberId);
 
@@ -45,7 +46,7 @@ const populateAThread = async (ctx: QueryCtx, messageId: Id<"messages">) => {
     };
   }
 
-  const lastMessageUser = populateUser(ctx, lastMessageMember.userId);
+  const lastMessageUser = await populateUser(ctx, lastMessageMember.userId);
   return {
     count: messages.length,
     image: lastMessageUser?.image,
@@ -87,7 +88,70 @@ export const get = query({
       )
       .order("desc")
       .paginate(args.paginationOpts);
-    return results;
+    return {
+      ...results,
+      page: (
+        await Promise.all(
+          results.page.map(async (message) => {
+            const member = await populateMember(ctx, message.memberId);
+            const user = member ? await populateUser(ctx, member.userId) : null;
+
+            if (!member || !user) {
+              return null;
+            }
+            const reactions = await populateReactions(ctx, message._id);
+            const thread = await populateThread(ctx, message._id);
+            const image = message.image
+              ? await ctx.storage.getUrl(message.image)
+              : undefined;
+
+            const reactionsWithCounts = reactions.map((reaction) => {
+              return {
+                ...reaction,
+                count: reactions.filter((r) => r.value === reaction.value)
+                  .length,
+              };
+            });
+            const dedupedReactions = reactionsWithCounts.reduce(
+              (acc, reaction) => {
+                const exisitingReaction = acc.find(
+                  (r) => r.value === reaction.value
+                );
+
+                if (exisitingReaction) {
+                  exisitingReaction.memberIds = Array.from(
+                    new Set([...exisitingReaction.memberIds, reaction.memberId])
+                  );
+                } else {
+                  acc.push({ ...reaction, memberIds: [reaction.memberId] });
+                }
+                return acc;
+              },
+              [] as (Doc<"reactions"> & {
+                count: number;
+                memberIds: Id<"members">[];
+              })[]
+            );
+            const reactionsWithoutMemberIdProperty = dedupedReactions.map(
+              // eslint-disable-next-line @typescript-eslint/no-unused-vars
+              ({ memberId, ...rest }) => rest
+            );
+            return {
+              ...message,
+              image,
+              member,
+              user,
+              reactions: reactionsWithoutMemberIdProperty,
+              threadCount: thread.count,
+              threadImage: thread.image,
+              threadTimestamp: thread.timeStamp,
+            };
+          })
+        )
+      ).filter(
+        (message): message is NonNullable<typeof message> => message !== null
+      ),
+    };
   },
 });
 
@@ -144,7 +208,6 @@ export const create = mutation({
       conversationId: _conversationId,
       workspaceId: args.workspaceId,
       parentMessageId: args.parentMessageId,
-      updatedAt: Date.now(),
     });
     return messageId;
   },
