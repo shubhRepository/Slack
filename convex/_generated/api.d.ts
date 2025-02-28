@@ -19,6 +19,7 @@ import type * as http from "../http.js";
 import type * as members from "../members.js";
 import type * as messages from "../messages.js";
 import type * as triggers_workspaceTriggers from "../triggers/workspaceTriggers.js";
+import type * as upload from "../upload.js";
 import type * as users from "../users.js";
 import type * as workspaces from "../workspaces.js";
 
@@ -37,6 +38,7 @@ declare const fullApi: ApiFromModules<{
   members: typeof members;
   messages: typeof messages;
   "triggers/workspaceTriggers": typeof triggers_workspaceTriggers;
+  upload: typeof upload;
   users: typeof users;
   workspaces: typeof workspaces;
 }>;
