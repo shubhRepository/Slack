@@ -1,6 +1,7 @@
 import { differenceInMinutes, format, isToday, isYesterday } from "date-fns";
 import { GetMessageReturnType } from "@/feature/messages/api/use-get-messages";
 import { Message } from "./message";
+import { ChannelHero } from "./channel-hero";
 
 const TIME_THRESHOLD = 5;
 
@@ -95,6 +96,9 @@ export const MessageList = ({
           })}
         </div>
       ))}
+      {variant === "channel" && channelName && channelCreationTime && (
+        <ChannelHero name={channelName} creationTime={channelCreationTime} />
+      )}
     </div>
   );
 };
