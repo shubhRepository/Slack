@@ -2,6 +2,10 @@ import { differenceInMinutes, format, isToday, isYesterday } from "date-fns";
 import { GetMessageReturnType } from "@/feature/messages/api/use-get-messages";
 import { Message } from "./message";
 import { ChannelHero } from "./channel-hero";
+import { useState } from "react";
+import { Id } from "../../convex/_generated/dataModel";
+import { useWorkspaceId } from "@/hooks/use-workspace-id";
+import { useCurrentMember } from "@/feature/members/api/use-current-member";
 
 const TIME_THRESHOLD = 5;
 
@@ -38,6 +42,11 @@ export const MessageList = ({
   isLoadingMore,
   canLoadMore,
 }: MessageListProps) => {
+  const [editingId, setEditingId] = useState<Id<"messages"> | null>(null);
+  const workspaceId = useWorkspaceId();
+
+  const { data: currentMember } = useCurrentMember({ workspaceId });
+
   const groupedMessages = data?.reduce(
     (groups, message) => {
       const date = new Date(message._creationTime);
@@ -78,7 +87,7 @@ export const MessageList = ({
                 memberId={message.memberId}
                 authorImage={message.user.image}
                 authorName={message.user.name}
-                isAuthor={false}
+                isAuthor={message.memberId === currentMember?._id}
                 reactions={message.reactions}
                 body={message.body}
                 image={message.image}
@@ -87,10 +96,10 @@ export const MessageList = ({
                 threadCount={message.threadCount}
                 threadImage={message.threadImage}
                 threadTimestamp={message.threadTimestamp}
-                isEditing={false}
-                setEditingId={() => {}}
+                isEditing={editingId === message._id}
+                setEditingId={setEditingId}
                 isCompact={isCompact}
-                hideThreadButton={false}
+                hideThreadButton={variant === "thread"}
               />
             );
           })}

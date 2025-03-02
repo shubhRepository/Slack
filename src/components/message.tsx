@@ -5,6 +5,7 @@ import { format, isToday, isYesterday } from "date-fns";
 import { Hint } from "./hints";
 import { Avatar, AvatarImage, AvatarFallback } from "./ui/avatar";
 import { Thumbnail } from "./thumbnail";
+import { Toolbar } from "./toolbar";
 
 const Renderer = dynamic(() => import("@/components/renderer"), { ssr: false });
 
@@ -78,7 +79,7 @@ export const Message = ({
     );
   }
   return (
-    <div className="flex flex-col gap-2 p-1 5 px-1 5 hover:bg-gray-100/60 group relative">
+    <div className="flex flex-col gap-2 p-1.5 px-5 hover:bg-gray-100/60 group relative">
       <div className="flex items-start gap-2">
         <button>
           <Avatar>
@@ -108,6 +109,17 @@ export const Message = ({
           )}
         </div>
       </div>
+      {!isEditing && (
+        <Toolbar
+          isAuthor={isAuthor}
+          isPending={false}
+          handleEdit={() => setEditingId(id)}
+          handleThread={() => {}}
+          handleDelete={() => {}}
+          handleReaction={() => {}}
+          hideThreadButton={hideThreadButton}
+        />
+      )}
     </div>
   );
 };
