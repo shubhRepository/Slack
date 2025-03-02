@@ -1,4 +1,4 @@
-import { AuthScreen } from "@/feature/auth/components/auth-screen";
+import { AuthScreen } from "@/features/auth/components/auth-screen";
 
 function AuthPage() {
   return <AuthScreen />;

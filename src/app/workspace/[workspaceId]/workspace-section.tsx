@@ -3,7 +3,7 @@ import { PlusIcon } from "lucide-react";
 import { FaCaretDown } from "react-icons/fa";
 import { cn } from "@/lib/utils";
 
-import { Hint } from "@/components/hints";
+import { Hint } from "@/components/hint";
 import { Button } from "@/components/ui/button";
 
 interface WorkspaceSectionProps {

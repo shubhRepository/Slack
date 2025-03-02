@@ -1,8 +1,8 @@
 import { useState } from "react";
 
-import { useUpdateChannel } from "@/feature/channels/api/use-update-channel";
+import { useUpdateChannel } from "@/features/channels/api/use-update-channel";
 import { useChannelId } from "@/hooks/use-channel-id";
-import { useRemoveChannel } from "@/feature/channels/api/use-remove-channel";
+import { useRemoveChannel } from "@/features/channels/api/use-remove-channel";
 import { useConfirm } from "@/hooks/use-confirm";
 import { useRouter } from "next/navigation";
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
@@ -21,7 +21,7 @@ import { TrashIcon } from "lucide-react";
 import { FaChevronDown } from "react-icons/fa";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
-import { useCurrentMember } from "@/feature/members/api/use-current-member";
+import { useCurrentMember } from "@/features/members/api/use-current-member";
 
 interface HeaderProps {
   title: string;

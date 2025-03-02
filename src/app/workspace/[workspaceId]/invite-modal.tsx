@@ -1,4 +1,4 @@
-import { useNewJoinCode } from "@/feature/workspaces/api/use-new-join-code";
+import { useNewJoinCode } from "@/features/workspaces/api/use-new-join-code";
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
 import { useConfirm } from "@/hooks/use-confirm";
 import { CopyIcon, RefreshCcw } from "lucide-react";

@@ -9,7 +9,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Hint } from "@/components/hints";
+import { Hint } from "@/components/hint";
 import { PreferencesModal } from "./preferences-modal";
 import { InviteModal } from "./invite-modal";
 

@@ -1,12 +1,12 @@
 "use client";
 
-import { useGetChannel } from "@/feature/channels/api/use-get-channel";
+import { useGetChannel } from "@/features/channels/api/use-get-channel";
 import { useChannelId } from "@/hooks/use-channel-id";
 
 import { Loader, TriangleAlert } from "lucide-react";
 import { Header } from "./header";
 import { ChatInput } from "./chat-input";
-import { useGetMessages } from "@/feature/messages/api/use-get-messages";
+import { useGetMessages } from "@/features/messages/api/use-get-messages";
 import { MessageList } from "@/components/message-list";
 
 const ChannelIdPage = () => {

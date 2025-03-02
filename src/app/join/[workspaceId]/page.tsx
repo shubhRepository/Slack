@@ -6,8 +6,8 @@ import VerificationInput from "react-verification-input";
 import { Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
-import { useGetWorkspaceInfo } from "@/feature/workspaces/api/use-get-workspace-info";
-import { useJoin } from "@/feature/workspaces/api/use-join";
+import { useGetWorkspaceInfo } from "@/features/workspaces/api/use-get-workspace-info";
+import { useJoin } from "@/features/workspaces/api/use-join";
 
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";

@@ -1,11 +1,11 @@
 import { differenceInMinutes, format, isToday, isYesterday } from "date-fns";
-import { GetMessageReturnType } from "@/feature/messages/api/use-get-messages";
+import { GetMessageReturnType } from "@/features/messages/api/use-get-messages";
 import { Message } from "./message";
 import { ChannelHero } from "./channel-hero";
 import { useState } from "react";
 import { Id } from "../../convex/_generated/dataModel";
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
-import { useCurrentMember } from "@/feature/members/api/use-current-member";
+import { useCurrentMember } from "@/features/members/api/use-current-member";
 
 const TIME_THRESHOLD = 5;
 

@@ -2,11 +2,11 @@ import dynamic from "next/dynamic";
 import { useRef, useState } from "react";
 
 import Quill from "quill";
-import { useCreateMessage } from "@/feature/messages/api/use-create-message";
+import { useCreateMessage } from "@/features/messages/api/use-create-message";
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
 import { useChannelId } from "@/hooks/use-channel-id";
 import { toast } from "sonner";
-import { useGenerateUploadUrl } from "@/feature/upload/api/use-generate-upload-url";
+import { useGenerateUploadUrl } from "@/features/upload/api/use-generate-upload-url";
 import { Id } from "../../../../../../convex/_generated/dataModel";
 
 const Editor = dynamic(() => import("@/components/editor"), { ssr: false });

@@ -7,7 +7,7 @@ import { MdSend } from "react-icons/md";
 import { ImageIcon, Smile, XIcon } from "lucide-react";
 
 import { Button } from "./ui/button";
-import { Hint } from "./hints";
+import { Hint } from "./hint";
 import { cn } from "@/lib/utils";
 import { EmojiPopover } from "./emoji-popover";
 import Image from "next/image";

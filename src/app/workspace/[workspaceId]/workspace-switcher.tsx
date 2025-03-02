@@ -4,9 +4,9 @@
 import { Loader, Plus } from "lucide-react";
 
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
-import { useGetWorkspace } from "@/feature/workspaces/api/use-get-workspace";
-import { useGetWorkspaces } from "@/feature/workspaces/api/use-get-workspaces";
-import { useCreateWorkSpaceModal } from "@/feature/workspaces/store/use-create-workspace-modal";
+import { useGetWorkspace } from "@/features/workspaces/api/use-get-workspace";
+import { useGetWorkspaces } from "@/features/workspaces/api/use-get-workspaces";
+import { useCreateWorkSpaceModal } from "@/features/workspaces/store/use-create-workspace-modal";
 
 import {
   DropdownMenu,

@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
-import { useUpdateWorkSpace } from "@/feature/workspaces/api/use-update-workspace";
-import { useRemoveWorkSpace } from "@/feature/workspaces/api/use-remove-workspace";
+import { useUpdateWorkSpace } from "@/features/workspaces/api/use-update-workspace";
+import { useRemoveWorkSpace } from "@/features/workspaces/api/use-remove-workspace";
 import { useConfirm } from "@/hooks/use-confirm";
 
 import {

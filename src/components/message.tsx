@@ -2,14 +2,14 @@ import dynamic from "next/dynamic";
 import { Doc } from "@convex-dev/auth/server";
 import { Id } from "../../convex/_generated/dataModel";
 import { format, isToday, isYesterday } from "date-fns";
-import { Hint } from "./hints";
+import { Hint } from "./hint";
 import { Avatar, AvatarImage, AvatarFallback } from "./ui/avatar";
 import { Thumbnail } from "./thumbnail";
 import { Toolbar } from "./toolbar";
-import { useUpdateMessage } from "@/feature/messages/api/use-update-message";
+import { useUpdateMessage } from "@/features/messages/api/use-update-message";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
-import { useRemoveMessage } from "@/feature/messages/api/use-remove-message";
+import { useRemoveMessage } from "@/features/messages/api/use-remove-message";
 import { useConfirm } from "@/hooks/use-confirm";
 
 const Renderer = dynamic(() => import("@/components/renderer"), { ssr: false });
