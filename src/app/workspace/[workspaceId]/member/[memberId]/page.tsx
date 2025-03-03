@@ -21,7 +21,6 @@ const MemberIdPage = () => {
       { workspaceId, memberId },
       {
         onSuccess(data) {
-          console.log(data);
           setConversationId(data);
         },
         onError() {

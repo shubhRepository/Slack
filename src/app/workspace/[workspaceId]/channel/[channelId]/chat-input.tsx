@@ -39,7 +39,6 @@ export const ChatInput = ({ placeholder }: ChatInputProps) => {
     body: string;
     image: File | null;
   }) => {
-    console.log(body, image);
     try {
       setIsPending(true);
       editorRef?.current?.enable(false);
@@ -90,7 +89,6 @@ export const ChatInput = ({ placeholder }: ChatInputProps) => {
         onSubmit={handleSubmit}
         disabled={isPending}
         innerRef={editorRef}
-        defaultValue={[]}
       />
     </div>
   );
