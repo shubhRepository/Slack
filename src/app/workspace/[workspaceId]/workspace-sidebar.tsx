@@ -17,8 +17,10 @@ import {
 import { SidebarItem } from "./sidebar-item";
 import { UserItem } from "./user-item";
 import { WorkspaceSection } from "./workspace-section";
+import { useMemberId } from "@/hooks/use-member-id";
 
 export const WorkspaceSidebar = () => {
+  const memberId = useMemberId();
   const channelId = useChannelId();
   const workspaceId = useWorkspaceId();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -90,6 +92,7 @@ export const WorkspaceSidebar = () => {
             id={member._id}
             label={member?.user?.name}
             image={member?.user?.image}
+            variant={member._id === memberId ? "active" : "default"}
           />
         ))}
       </WorkspaceSection>
