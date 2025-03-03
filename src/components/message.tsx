@@ -1,6 +1,5 @@
 import dynamic from "next/dynamic";
-import { Doc } from "@convex-dev/auth/server";
-import { Id } from "../../convex/_generated/dataModel";
+import { Id, Doc } from "../../convex/_generated/dataModel";
 import { format, isToday, isYesterday } from "date-fns";
 import { Hint } from "./hint";
 import { Avatar, AvatarImage, AvatarFallback } from "./ui/avatar";
@@ -34,7 +33,7 @@ interface MessageProps {
   body: Doc<"messages">["body"];
   image: string | null | undefined;
   createdAt: Doc<"messages">["_creationTime"];
-  updatedAt: Doc<"messages">["udatedAt"];
+  updatedAt: Doc<"messages">["updatedAt"];
   isEditing: boolean;
   isCompact?: boolean;
   setEditingId: (id: Id<"messages"> | null) => void;

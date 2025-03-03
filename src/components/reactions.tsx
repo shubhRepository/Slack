@@ -1,5 +1,4 @@
-import { Doc } from "@convex-dev/auth/server";
-import { Id } from "../../convex/_generated/dataModel";
+import { Id, Doc } from "../../convex/_generated/dataModel";
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
 import { useCurrentMember } from "@/features/members/api/use-current-member";
 import { cn } from "@/lib/utils";
