@@ -16,7 +16,6 @@ import {
 import { useState } from "react";
 import { useGetChannels } from "@/features/channels/api/use-get-channels";
 import { useGetMembers } from "@/features/members/api/use-get-members";
-import Link from "next/link";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import { DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { useRouter } from "next/navigation";
